@@ -1,0 +1,39 @@
+# Node modules
+/node_modules/
+
+# Arquivos de build
+/dist/
+/build/
+
+# Arquivos de configuração do editor
+/.vscode/
+/.idea/
+
+# Arquivos gerados pelo npm
+/package-lock.json
+/yarn.lock
+/npm-debug.log
+/yarn-error.log
+
+# Arquivos gerados pelo Webpack
+/webpack.config.js
+/webpack-dev-server/
+*.map
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# TypeScript
+*.tsbuildinfo
+
+# TailwindCSS
+tailwind.config.js
+postcss.config.js
+
+# Arquivos temporários do editor
+*.swp
+*.swo
+
+# Arquivos gerados pelo Visual Studio Code
+.vscode/
