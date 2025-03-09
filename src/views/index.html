@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Projeto</title>
-</head>
-<body>
-    <div class="z-10 w-16 h-16 bg-red-500"></div>
-    <script src="bundle.js"></script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Meu Projeto</title>
+        <script src="bundle.js"></script>
+    </head>
+    <body class="text-custom-neutral-contrast-5" x-data>
+        <header
+            class="z-10 w-full p-4 fixed uppercase flex items-end justify-between"
+            x-init="fetch('/header.html').then(res => res.text()).then(html => $el.innerHTML = html)">
+        </header>
+
+        <div
+            id="content"
+            x-init="fetch('/content.html').then(res => res.text()).then(html => $el.innerHTML = html)">
+        </div>
+
+        <footer
+            class="z-10 w-full p-4 fixed uppercase flex items-end justify-between"
+            x-init="fetch('/footer.html').then(res => res.text()).then(html => $el.innerHTML = html)">
+        </footer>
+    </body>
 </html>
