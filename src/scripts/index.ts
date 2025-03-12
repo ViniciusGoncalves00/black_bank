@@ -53,21 +53,22 @@ document.addEventListener("alpine:init", () => {
 function InitializeThree(): void {
   const sceneManager = SceneManager.GetInstance();
   const scene = sceneManager.CreateScene();
+  scene.background = null;
 
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({ alpha: true });
   
-  renderer.setSize(window.innerWidth, window.innerHeight);
   const canvas = document.getElementById("canvas");
   if(canvas !== null) {
     canvas.appendChild(renderer.domElement);
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
   }
   
-  const geometry = new THREE.BoxGeometry(7.5, 5.5, 0.01);
-  const material_1 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  const material_2 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-  const material_3 = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-  const material_4 = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const geometry = new THREE.BoxGeometry(7.5, 5.5, 0.1);
+  const material_1 = new THREE.MeshBasicMaterial({ color: new THREE.Color("rgba(20, 20, 20)") });
+  const material_2 = new THREE.MeshBasicMaterial({ color: new THREE.Color("rgba(240, 240, 240)") });
+  const material_3 = new THREE.MeshBasicMaterial({ color: new THREE.Color("rgba(227, 153, 57)") });
+  const material_4 = new THREE.MeshBasicMaterial({ color: new THREE.Color("rgba(200, 0, 60)") });
   const card_1 = new THREE.Mesh(geometry, material_1);
   const card_2 = new THREE.Mesh(geometry, material_2);
   const card_3 = new THREE.Mesh(geometry, material_3);
@@ -79,11 +80,17 @@ function InitializeThree(): void {
   scene.add(card_4);
 
   card_1.position.set(0, 0, 0)
-  card_2.position.set(50, 0, 0)
-  card_3.position.set(100, 0, 0)
-  card_4.position.set(150, 0, 0)
+  card_2.position.set(25, 0, 0)
+  card_3.position.set(50, 0, 0)
+  card_4.position.set(75, 0, 0)
+
+  card_1.rotation.set(0, -60 * THREE.MathUtils.DEG2RAD, 0)
+  card_2.rotation.set(0, -60 * THREE.MathUtils.DEG2RAD, 0)
+  card_3.rotation.set(0, -60 * THREE.MathUtils.DEG2RAD, 0)
+  card_4.rotation.set(0, -60 * THREE.MathUtils.DEG2RAD, 0)
   
   camera.position.z = 10;
+  camera.position.x = 0;
 
   let offset = 0;
 
