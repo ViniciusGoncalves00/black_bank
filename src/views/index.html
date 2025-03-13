@@ -11,12 +11,16 @@
             x-init="fetch('/header.html').then(res => res.text()).then(html => $el.innerHTML = html)">
         </header>
 
-        <nav id="fixedMenu" class="z-50 w-full px-64 py-4 fixed top-16 uppercase flex flex-col items-center justify-center bg-black/50 text-white">
-            <ul class="flex gap-8">
-              <li><a href="#section1" class="menu-link">Seção 1</a></li>
-              <li><a href="#section2" class="menu-link">Seção 2</a></li>
-              <li><a href="#section3" class="menu-link">Seção 3</a></li>
-            </ul>
+        <nav id="fixedMenu" class="z-50 w-64 h-16 fixed right-16 top-1/2 bot-1/2 gap-16 uppercase flex flex-col items-center justify-center">
+            <div class="w-full flex items-center justify-end">
+                <a href="#section1" class="menu-link bg-white w-2 h-2 flex-none rounded-full"></a>
+            </div>
+            <div class="w-full flex items-center justify-end">
+                <a href="#section2" class="menu-link bg-white w-2 h-2 flex-none rounded-full"></a>
+            </div>
+            <div class="w-full flex items-center justify-end">
+                <a href="#section3" class="menu-link bg-white w-2 h-2 flex-none rounded-full"></a>
+            </div>
         </nav>
 
         <div
@@ -43,8 +47,8 @@
                     const sectionBottom = sectionTop + viewportHeight;
 
                     if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                        menuLinks.forEach((link) => link.classList.remove('text-yellow-400'));
-                        menuLinks[index].classList.add('text-yellow-400');
+                        menuLinks.forEach((link) => link.classList.remove('bg-yellow-400'));
+                        menuLinks[index].classList.add('bg-yellow-400');
                     }
                 });
             }
