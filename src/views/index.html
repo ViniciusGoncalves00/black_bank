@@ -11,6 +11,14 @@
             x-init="fetch('/header.html').then(res => res.text()).then(html => $el.innerHTML = html)">
         </header>
 
+        <nav id="fixedMenu" class="z-50 w-full px-64 py-4 fixed top-16 uppercase flex flex-col items-center justify-center bg-black/50 text-white">
+            <ul class="flex gap-8">
+              <li><a href="#section1" class="menu-link">Seção 1</a></li>
+              <li><a href="#section2" class="menu-link">Seção 2</a></li>
+              <li><a href="#section3" class="menu-link">Seção 3</a></li>
+            </ul>
+        </nav>
+
         <div
             id="content"
             class="z-10 w-full px-64 flex flex-col items-center justify-center"
@@ -21,5 +29,34 @@
             class="z-10 w-full px-64 py-4 flex items-end justify-between"
             x-init="fetch('/footer.html').then(res => res.text()).then(html => $el.innerHTML = html)">
         </footer>
+
+        <script>
+            const menuLinks = document.querySelectorAll('.menu-link');
+
+            function highlightCurrentSection() {
+                const sections = document.querySelectorAll('section');
+                const viewportHeight = window.innerHeight;
+                const scrollPosition = window.scrollY;
+
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + viewportHeight;
+
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        menuLinks.forEach((link) => link.classList.remove('text-yellow-400'));
+                        menuLinks[index].classList.add('text-yellow-400');
+                    }
+                });
+            }
+
+            const observer = new MutationObserver(() => {
+                highlightCurrentSection();
+            });
+
+            observer.observe(document.getElementById('content'), { childList: true, subtree: true });
+
+            window.addEventListener('scroll', highlightCurrentSection);
+            window.addEventListener('load', highlightCurrentSection);
+        </script>
     </body>
 </html>
