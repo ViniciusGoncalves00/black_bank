@@ -12,6 +12,7 @@ declare global {
 
 ListenDomContentLoad()
 ListenWheel()
+ListenSections()
 
 function ListenDomContentLoad() {
   window.addEventListener("DOMContentLoaded", () => {
@@ -49,6 +50,39 @@ function ListenWheel() {
       });
     }
   }, { passive: false });
+}
+
+function ListenSections() {
+  const menuLinks = document.querySelectorAll('.menu-link');
+
+  function highlightCurrentSection() {
+      const sections = document.querySelectorAll('section');
+      const viewportHeight = window.innerHeight;
+      const scrollPosition = window.scrollY;
+
+      sections.forEach((section, index) => {
+          const sectionTop = section.offsetTop;
+          const sectionBottom = sectionTop + viewportHeight;
+          const pixelTolerance = 2;
+
+          if (scrollPosition >= sectionTop - pixelTolerance && scrollPosition < sectionBottom - pixelTolerance) {
+              menuLinks.forEach((link) => link.classList.remove('bg-yellow-400'));
+              menuLinks[index].classList.add('bg-yellow-400');
+          }
+      });
+  }
+
+  const observer = new MutationObserver(() => {
+      highlightCurrentSection();
+  });
+
+  const element = document.getElementById('content')
+  if(element) {
+    observer.observe((element), { childList: true, subtree: true });
+  }
+
+  window.addEventListener('scroll', highlightCurrentSection);
+  window.addEventListener('load', highlightCurrentSection);
 }
 
 function InitializeThree(): void {

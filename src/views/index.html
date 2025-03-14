@@ -12,15 +12,30 @@
         </header>
 
         <nav id="fixedMenu" class="z-50 w-64 h-16 fixed right-16 top-1/2 bot-1/2 gap-16 uppercase flex flex-col items-center justify-center">
-            <div class="w-full flex items-center justify-end">
+            <button 
+                @click="window.scrollTo({
+                        top: window.innerHeight * 0,
+                        behavior: 'smooth'
+                });"
+                class="w-full flex items-center justify-end">
                 <a href="#section1" class="menu-link bg-white w-2 h-2 flex-none rounded-full"></a>
-            </div>
-            <div class="w-full flex items-center justify-end">
+            </button>
+            <button
+                @click="window.scrollTo({
+                    top: window.innerHeight * 1,
+                    behavior: 'smooth'
+                });"
+                class="w-full flex items-center justify-end">
                 <a href="#section2" class="menu-link bg-white w-2 h-2 flex-none rounded-full"></a>
-            </div>
-            <div class="w-full flex items-center justify-end">
+            </button>
+            <button
+                @click="window.scrollTo({
+                    top: window.innerHeight * 2,
+                    behavior: 'smooth'
+                });"
+                class="w-full flex items-center justify-end">
                 <a href="#section3" class="menu-link bg-white w-2 h-2 flex-none rounded-full"></a>
-            </div>
+            </button>
         </nav>
 
         <div
@@ -33,34 +48,5 @@
             class="z-10 w-full px-64 py-4 flex items-end justify-between"
             x-init="fetch('/footer.html').then(res => res.text()).then(html => $el.innerHTML = html)">
         </footer>
-
-        <script>
-            const menuLinks = document.querySelectorAll('.menu-link');
-
-            function highlightCurrentSection() {
-                const sections = document.querySelectorAll('section');
-                const viewportHeight = window.innerHeight;
-                const scrollPosition = window.scrollY;
-
-                sections.forEach((section, index) => {
-                    const sectionTop = section.offsetTop;
-                    const sectionBottom = sectionTop + viewportHeight;
-
-                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                        menuLinks.forEach((link) => link.classList.remove('bg-yellow-400'));
-                        menuLinks[index].classList.add('bg-yellow-400');
-                    }
-                });
-            }
-
-            const observer = new MutationObserver(() => {
-                highlightCurrentSection();
-            });
-
-            observer.observe(document.getElementById('content'), { childList: true, subtree: true });
-
-            window.addEventListener('scroll', highlightCurrentSection);
-            window.addEventListener('load', highlightCurrentSection);
-        </script>
     </body>
 </html>
