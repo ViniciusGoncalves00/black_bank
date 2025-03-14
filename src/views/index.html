@@ -7,7 +7,7 @@
     </head>
     <body class="bg-custom-neutral-5 text-custom-text" x-data>
         <header
-            class="z-10 w-full px-64 py-4 fixed uppercase flex items-end justify-between"
+            class="bg-custom-neutral-5 z-10 w-full px-64 py-4 fixed uppercase flex items-end justify-between"
             x-init="fetch('/header.html').then(res => res.text()).then(html => $el.innerHTML = html)">
         </header>
 
