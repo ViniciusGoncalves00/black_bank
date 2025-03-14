@@ -1,8 +1,6 @@
 import "../styles/main.css";
-
 import * as THREE from 'three';
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
-
 import Alpine from "alpinejs";
 import { SceneManager } from "./three/scene-manager";
 
@@ -11,44 +9,47 @@ declare global {
       Alpine: typeof Alpine;
     }
   }
+
+ListenDomContentLoad()
+ListenWheel()
+
+function ListenDomContentLoad() {
+  window.addEventListener("DOMContentLoaded", () => {
+    window.Alpine = Alpine;
+    Alpine.start();
+
+    const observer = new MutationObserver((mutations, obs) => {
+      const canvas = document.getElementById("canvas");
+      if (canvas) {
+        InitializeThree();
+        obs.disconnect();
+      }
+    });
   
-window.Alpine = Alpine;
-
-window.addEventListener("DOMContentLoaded", () => {
-  Alpine.start();
-});
-
-window.addEventListener("wheel", (event) => {
-  event.preventDefault();
-
-  const viewportHeight = window.innerHeight;
-  const scrollAmount = viewportHeight * 1;
-
-  if (event.deltaY > 0) {
-    window.scrollTo({
-      top: window.scrollY + scrollAmount,
-      behavior: "smooth",
-    });
-  } else {
-    window.scrollTo({
-      top: window.scrollY - scrollAmount,
-      behavior: "smooth",
-    });
-  }
-}, { passive: false });
-
-document.addEventListener("alpine:init", () => {
-  const observer = new MutationObserver((mutations, obs) => {
-    const canvas = document.getElementById("canvas");
-    if (canvas) {
-      InitializeThree();
-      obs.disconnect(); // Para de observar após encontrar o elemento
-    }
+    observer.observe(document.body, { childList: true, subtree: true });
   });
+}
 
-  observer.observe(document.body, { childList: true, subtree: true });
-});
-
+function ListenWheel() {
+  window.addEventListener("wheel", (event) => {
+    event.preventDefault();
+  
+    const viewportHeight = window.innerHeight;
+    const scrollAmount = viewportHeight * 1;
+  
+    if (event.deltaY > 0) {
+      window.scrollTo({
+        top: window.scrollY + scrollAmount,
+        behavior: "smooth",
+      });
+    } else {
+      window.scrollTo({
+        top: window.scrollY - scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  }, { passive: false });
+}
 
 function InitializeThree(): void {
   const sceneManager = SceneManager.GetInstance();
