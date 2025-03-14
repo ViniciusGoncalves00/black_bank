@@ -59,13 +59,14 @@ function ListenSections() {
       const sections = document.querySelectorAll('section');
       const viewportHeight = window.innerHeight;
       const scrollPosition = window.scrollY;
+      const windowCenter = scrollPosition + viewportHeight / 2;
 
       sections.forEach((section, index) => {
           const sectionTop = section.offsetTop;
           const sectionBottom = sectionTop + viewportHeight;
           const pixelTolerance = 2;
 
-          if (scrollPosition >= sectionTop - pixelTolerance && scrollPosition < sectionBottom - pixelTolerance) {
+          if (windowCenter >= sectionTop - pixelTolerance && windowCenter < sectionBottom - pixelTolerance) {
               menuLinks.forEach((link) => link.classList.remove('bg-yellow-400'));
               menuLinks[index].classList.add('bg-yellow-400');
           }
