@@ -13,6 +13,12 @@ declare global {
 ListenDomContentLoad()
 ListenWheel()
 ListenSections()
+ListenResize()
+
+let renderer: THREE.WebGLRenderer;
+let camera: THREE.PerspectiveCamera;
+let scene: THREE.Scene;
+let canvas: HTMLElement | null;
 
 function ListenDomContentLoad() {
   window.addEventListener("DOMContentLoaded", () => {
@@ -86,19 +92,37 @@ function ListenSections() {
   window.addEventListener('load', highlightCurrentSection);
 }
 
+function ListenResize() {
+  window.addEventListener('resize', SetCamera);
+}
+
+function SetCamera() {
+  if(canvas) {
+    const newWidth = canvas.clientWidth;
+    const newHeight = canvas.clientHeight;
+  
+    camera.aspect = newWidth / newHeight;
+    camera.updateProjectionMatrix();
+  
+    renderer.setSize(newWidth, newHeight);
+  }
+}
+
 function InitializeThree(): void {
   const sceneManager = SceneManager.GetInstance();
-  const scene = sceneManager.CreateScene();
+  scene = sceneManager.CreateScene();
   scene.background = null;
 
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({ alpha: true });
+  renderer = new THREE.WebGLRenderer({ alpha: true });
   
-  const canvas = document.getElementById("canvas");
-  if(canvas !== null) {
+  canvas = document.getElementById("canvas");
+  if(canvas) {
     canvas.appendChild(renderer.domElement);
+    camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
   }
+
+  SetCamera();
   
   const geometry = new THREE.BoxGeometry(7.5, 5.5, 0.1);
   const material_1 = new THREE.MeshBasicMaterial({ color: new THREE.Color("rgba(20, 20, 20)") });
