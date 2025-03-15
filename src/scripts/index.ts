@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import Alpine from "alpinejs";
 import { SceneManager } from "./three/scene-manager";
+import { Carrousel } from "./three/carrousel";
 
 declare global {
     interface Window {
@@ -19,6 +20,7 @@ let renderer: THREE.WebGLRenderer;
 let camera: THREE.PerspectiveCamera;
 let scene: THREE.Scene;
 let canvas: HTMLElement | null;
+let carrousel: Carrousel | null = null;
 
 function ListenDomContentLoad() {
   window.addEventListener("DOMContentLoaded", () => {
@@ -139,11 +141,6 @@ function InitializeThree(): void {
   scene.add(card_3);
   scene.add(card_4);
 
-  card_1.position.set(0, 0, 0)
-  card_2.position.set(25, 0, 0)
-  card_3.position.set(50, 0, 0)
-  card_4.position.set(75, 0, 0)
-
   card_1.rotation.set(0, -60 * THREE.MathUtils.DEG2RAD, 0)
   card_2.rotation.set(0, -60 * THREE.MathUtils.DEG2RAD, 0)
   card_3.rotation.set(0, -60 * THREE.MathUtils.DEG2RAD, 0)
@@ -152,24 +149,15 @@ function InitializeThree(): void {
   camera.position.z = 10;
   camera.position.x = 0;
 
-  let offset = 0;
+  carrousel = new Carrousel([card_1, card_2, card_3, card_4], 25)
 
   const moveLeft = () => {
-    offset -= 50;
-    updateCardPositions();
+    carrousel?.Rotate(-1)
   };
 
   const moveRight = () => {
-    offset += 50;
-    updateCardPositions();
+    carrousel?.Rotate(1)
   };
-
-  function updateCardPositions() {
-    card_1.position.set(offset + 0, 0, 0);
-    card_2.position.set(offset + 50, 0, 0);
-    card_3.position.set(offset + 100, 0, 0);
-    card_4.position.set(offset + 150, 0, 0);
-  }
 
   document.querySelector(".left-button")?.addEventListener("click", moveLeft);
   document.querySelector(".right-button")?.addEventListener("click", moveRight);
