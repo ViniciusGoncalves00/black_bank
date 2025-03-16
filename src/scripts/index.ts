@@ -22,6 +22,9 @@ let scene: THREE.Scene;
 let canvas: HTMLElement | null;
 let carrousel: Carrousel | null = null;
 
+let currentCard = 1;
+const totalCards = 4;
+
 function ListenDomContentLoad() {
   window.addEventListener("DOMContentLoaded", () => {
     window.Alpine = Alpine;
@@ -151,12 +154,33 @@ function InitializeThree(): void {
 
   carrousel = new Carrousel([card_1, card_2, card_3, card_4], 25)
 
-  const moveLeft = () => {
-    carrousel?.Rotate(-1)
-  };
 
+  const updateCardDescription = () => {
+    const cardDescription = document.getElementById("card-description");
+    if (cardDescription) {
+      const cardHTML = `/carrousel/card${currentCard}.html`;
+      fetch(cardHTML)
+        .then(res => {
+          if (!res.ok) throw new Error(`Card card${currentCard} not found`);
+          return res.text();
+        })
+        .then(html => cardDescription.innerHTML = html)
+        .catch(err => console.error(err));
+    }
+  };
+  
+  updateCardDescription();
+  
+  const moveLeft = () => {
+    carrousel?.Rotate(-1);
+    currentCard = (currentCard - 1 + totalCards) % totalCards;
+    updateCardDescription();
+  };
+  
   const moveRight = () => {
-    carrousel?.Rotate(1)
+    carrousel?.Rotate(1);
+    currentCard = (currentCard + 1) % totalCards;
+    updateCardDescription();
   };
 
   document.querySelector(".left-button")?.addEventListener("click", moveLeft);
