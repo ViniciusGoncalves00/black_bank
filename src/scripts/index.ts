@@ -22,7 +22,7 @@ let scene: THREE.Scene;
 let canvas: HTMLElement | null;
 let carrousel: Carrousel | null = null;
 
-let currentCard = 1;
+let currentCard = 0;
 const totalCards = 4;
 
 function ListenDomContentLoad() {
@@ -172,13 +172,13 @@ function InitializeThree(): void {
   updateCardDescription();
   
   const moveLeft = () => {
-    carrousel?.Rotate(-1);
+    carrousel?.Rotate(1);
     currentCard = (currentCard - 1 + totalCards) % totalCards;
     updateCardDescription();
   };
   
   const moveRight = () => {
-    carrousel?.Rotate(1);
+    carrousel?.Rotate(-1);
     currentCard = (currentCard + 1) % totalCards;
     updateCardDescription();
   };
